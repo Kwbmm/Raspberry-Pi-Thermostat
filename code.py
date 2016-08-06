@@ -3,6 +3,8 @@
 import web
 
 # Say hello.
+
+
 class Index:
 	def GET(self):
 		return 'hello web.py'
