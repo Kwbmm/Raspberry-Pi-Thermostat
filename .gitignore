@@ -1,0 +1,16 @@
+#Suggestion on how to do this .gitignore is take from
+#http://stackoverflow.com/questions/9162919/whitelisting-and-subdirectories-in-git/9227991#9227991
+
+#Ignore everything
+*
+
+#Whitelist directories
+!*/
+
+#Whitelist the needed files
+!*\.py
+!*\.html
+!*\.js
+!*\.sql
+!*\.css
+!\.gitignore

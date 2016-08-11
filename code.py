@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import web
-import routes
+from routes.index import Index
 
 if __name__ == "__main__":
-	app = web.application(('/*', 'index'), globals())
+	app = web.application(('/*', 'Index'), globals())
 	app.run()
