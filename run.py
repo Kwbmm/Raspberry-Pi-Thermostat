@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import web
-from routes.index import Index
+from routes.Home import Home
+
+render = web.template.render('templates/')
 
 if __name__ == "__main__":
-	app = web.application(('/*', 'Index'), globals())
+	app = web.application(('/*', 'Home'), globals())
 	app.run()
