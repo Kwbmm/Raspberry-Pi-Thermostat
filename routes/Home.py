@@ -1,5 +1,5 @@
 import web
-import Menu
+from Menu import *
 
 render = web.template.render('templates/', base="base")
 

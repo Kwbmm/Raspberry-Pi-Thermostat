@@ -2,7 +2,7 @@
 
 import web
 from routes.Home import Home
-from routes import Menu
+from routes.Menu import *
 
 
 if __name__ == "__main__":
