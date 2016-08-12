@@ -1,0 +1,14 @@
+$def with(links)            
+<!-- off-canvas title bar for 'small' screen -->
+<div class="title-bar" data-responsive-toggle="top-bar-menu" data-hide-for="medium">
+    <div class="title-bar-left">
+        <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
+        <span class="title-bar-title">Thermostat</span>
+    </div>
+</div>
+<!-- off-canvas left menu -->
+<div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
+    <ul class="dropdown menu vertical">
+        $:links
+    </ul>
+</div>

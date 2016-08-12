@@ -2,8 +2,9 @@
 
 import web
 from routes.Home import Home
+from routes import Menu
 
 
 if __name__ == "__main__":
-	app = web.application(('/*', 'Home'), globals())
+	app = web.application(getURLs(), globals())
 	app.run()
