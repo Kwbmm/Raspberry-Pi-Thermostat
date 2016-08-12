@@ -1,6 +1,6 @@
 import web
 
-render = web.template.render('templates/')
+render = web.template.render('templates/', base="base")
 
 
 class Home:
