@@ -1,4 +1,5 @@
 $def with(content)
+$var appName: Thermostat
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -10,8 +11,35 @@ $def with(content)
     <link rel="stylesheet" type="text/css" href="static/css/app.css" />
 </head>
 <body>
-    
-    $:content
+    <div class="off-canvas-wrapper">
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+            <!-- off-canvas title bar for 'small' screen -->
+            <div class="title-bar" data-responsive-toggle="top-bar-menu" data-hide-for="medium">
+                <div class="title-bar-left">
+                    <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
+                    <span class="title-bar-title">$appName</span>
+                </div>
+            </div>
+            <!-- off-canvas left menu -->
+            <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
+                <ul class="dropdown menu vertical">
+                    $for i in range(0,len($content.menuURLs),2):
+                        <li><a href="$content.menuURLs[$i]">$content.menuURLs[$i+1]</a></li>
+                </ul>
+            </div>
+            <!-- "wider" top-bar menu for 'medium' and up -->
+            <div id="top-bar-menu" class="top-bar">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li class="menu-text">$appName</li>
+                        $for i in range(0,len($content.menuURLs),2):
+                            <li><a href="$content.menuURLs[$i]">$content.menuURLs[$i+1]</a></li>
+                    </ul>
+                </div>
+            </div>
+            $:content
+        </div>
+    </div>
 
     <script src="static/js/vendor/jquery.min.js"></script>
     <script src="static/js/vendor/what-input.min.js"></script>
