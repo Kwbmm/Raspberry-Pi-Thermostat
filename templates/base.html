@@ -1,5 +1,7 @@
 $def with(content)
-$var appName: Thermostat
+$ appName="Thermostat"
+$ urls=content.menuURLs
+
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -23,8 +25,8 @@ $var appName: Thermostat
             <!-- off-canvas left menu -->
             <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
                 <ul class="dropdown menu vertical">
-                    $for i in range(0,len($content.menuURLs),2):
-                        <li><a href="$content.menuURLs[$i]">$content.menuURLs[$i+1]</a></li>
+                    $for i in range(0,len(urls)-1,2):
+                        <li><a href="$:urls[i]">$:urls[i+1]</a></li>
                 </ul>
             </div>
             <!-- "wider" top-bar menu for 'medium' and up -->
@@ -32,11 +34,12 @@ $var appName: Thermostat
                 <div class="top-bar-left">
                     <ul class="dropdown menu" data-dropdown-menu>
                         <li class="menu-text">$appName</li>
-                        $for i in range(0,len($content.menuURLs),2):
-                            <li><a href="$content.menuURLs[$i]">$content.menuURLs[$i+1]</a></li>
+                        $for i in range(0,len(urls)-1,2):
+                            <li><a href="$:urls[i]">$:urls[i+1]</a></li>
                     </ul>
                 </div>
             </div>
+            $:urls
             $:content
         </div>
     </div>
