@@ -1,8 +1,9 @@
-$def with(urls)
-$var pageTitle: Home
-$var menuURLs: $urls
+{% extends "body.html" %}
+{% block pageName %}Home{% endblock %}
+{% block content %}
 <div class="row">
 	<div class="small-12 columns">
-		<em>Hello</em>, world!
+		<em>Hello</em>, world! {{appName}}
 	</div>
-</div>
+</div>	
+{% endblock %}

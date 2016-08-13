@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="off-canvas-wrapper">
+	<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+		{% include "menu/offCanvas.html" %}
+		{% include "menu/topBar.html" %}
+		{% block content %}{% endblock %}
+	</div>
+</div>
+{% endblock %}
