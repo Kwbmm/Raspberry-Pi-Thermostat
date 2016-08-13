@@ -1,9 +1,9 @@
 import web
-from Menu import *
+from web.contrib.template import render_jinja
 
-render = web.template.render('templates/', base="base")
+render = render_jinja('templates', encoding='utf-8')
 
 
 class Home:
 	def GET(self):
-		return render.home(getURLs())
+		return render.home(appName="Thermostat")

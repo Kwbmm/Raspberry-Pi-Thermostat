@@ -2,9 +2,11 @@
 
 import web
 from routes.Home import Home
-from routes.Menu import *
 
+urls = (
+	'/', 'Home'
+)
 
 if __name__ == "__main__":
-	app = web.application(getURLs(), globals())
+	app = web.application(urls, globals())
 	app.run()
