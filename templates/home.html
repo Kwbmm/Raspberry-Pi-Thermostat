@@ -2,8 +2,45 @@
 {% block pageName %}Home{% endblock %}
 {% block content %}
 <div class="row">
-	<div class="small-12 columns">
-		<em>Hello</em>, world! {{appName}}
+	<div class="small-12 columns" style="padding-top: 10px;">
+		{% if data.temp is none and data.isActive is none %}
+			<h3 class="text-center">There is no temperature set in the database</h3>
+		{% else %}
+			{% set temp,active,lastUpdate = data.temp,data.isActive,data.timeRecord %}
+			{% if temp < 20 %}
+				{% set tempClass = 'infoColor' %}
+			{% elif temp >= 20 and temp < 25 %}
+				{% set tempClass = 'successColor' %}
+			{% elif temp >= 25 and temp < 27 %}
+				{% set tempClass = 'warningColor' %}
+			{% else %}
+				{% set tempClass = 'alertColor' %}
+			{% endif %}
+			<div class="row">
+				<div class="small-6 columns">
+					<div class="callout">
+						<h5 class="text-center" style="line-height: 2em; ">The last know temperature is <strong class="tag {{tempClass}}">{{temp}}°C</strong></h5>
+					</div>
+				</div>
+				<div class="small-6 columns">
+					<div class="callout">
+						{% if active == 1 %}
+							{% set activeClass,activeText = 'alertColor','active' %}
+						{% else %}
+							{% set activeClass,activeText = 'infoColor','not&nbsp;active' %}					    
+						{% endif %}
+						<h5 class="text-center" style="line-height: 2em; ">The thermostat is <strong class="tag {{activeClass}}">{{activeText}}</strong></h5>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<div class="callout text-center">
+						<p><small>The last update was {{lastUpdate}}.</small></p>
+					</div>
+				</div>
+			</div>
+		{% endif %}
 	</div>
-</div>	
+</div>
 {% endblock %}
