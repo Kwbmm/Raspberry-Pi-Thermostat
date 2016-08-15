@@ -4,7 +4,11 @@
 	<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
 		{% include "menu/offCanvas.html" %}
 		{% include "menu/topBar.html" %}
-		{% block content %}{% endblock %}
+
+		<!-- original content goes in this container -->
+		<div class="off-canvas-content" data-off-canvas-content>
+			{% block content %}{% endblock %}
+		</div>
 	</div>
 </div>
 {% endblock %}

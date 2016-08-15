@@ -1,14 +1,15 @@
 {% set appName = "Thermostat" %}
 <!-- off-canvas title bar for 'small' screen -->
-<div class="title-bar" data-responsive-toggle="top-bar-menu" data-hide-for="medium">
+<div class="title-bar" data-responsive-toggle="widemenu" data-hide-for="medium">
 	<div class="title-bar-left">
 		<button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
 		<span class="title-bar-title">{{appName}}</span>
 	</div>
 </div>
+
 <!-- off-canvas left menu -->
 <div class="off-canvas position-left" id="offCanvasLeft" data-off-canvas>
-	<ul class="dropdown menu vertical">
-		{% include 'menu/links.html' %}
+	<ul class="vertical dropdown menu" data-dropdown-menu>
+		{% include "menu/links.html" %}
 	</ul>
 </div>

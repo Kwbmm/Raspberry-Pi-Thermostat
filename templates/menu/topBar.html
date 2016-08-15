@@ -1,9 +1,10 @@
+{% set appName = "Thermostat" %}
 <!-- "wider" top-bar menu for 'medium' and up -->
-<div id="top-bar-menu" class="top-bar">
-    <div class="top-bar-left">
-        <ul class="dropdown menu" data-dropdown-menu>
-            <li class="menu-text">{{appName}}</li>
-            {% include 'menu/links.html' %}
-        </ul>
-    </div>
+<div id="widemenu" class="top-bar">
+	<div class="top-bar-left">
+		<ul class="dropdown menu" data-dropdown-menu>
+			<li class="menu-text">Foundation</li>
+			{% include "menu/links.html" %}
+		</ul>
+	</div>
 </div>
