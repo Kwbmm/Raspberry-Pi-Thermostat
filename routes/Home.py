@@ -30,12 +30,12 @@ class Home:
 			elif timeDiff >= 30 and timeDiff < 60:
 				data['timeRecord'] = str(timeDiff) + " seconds ago"
 			elif timeDiff >= 60 and timeDiff < 3600:
-				min, secs = divmod(timeDiff, 60)
-				data['timeRecord'] = str(min) + ' minutes ago'
+				mins, secs = divmod(timeDiff, 60)
+				data['timeRecord'] = str(mins) + ' minutes ago'
 			elif timeDiff >= 3600 and timeDiff < 7200:
 				data['timeRecord'] = "an hour and something ago"
 			else:
-				min, secs = divmod(timeDiff, 60)
+				mins, secs = divmod(timeDiff, 60)
 				hours, mins = divmod(mins, 60)
 				data['timeRecord'] = str(hours) + " hours ago"
 		else:
