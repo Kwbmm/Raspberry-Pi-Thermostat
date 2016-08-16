@@ -1,23 +1,23 @@
 $(document).ready(function(){
 	$(document).foundation();
-//	var page = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
-//	switch(page){
-//		case 'setProgram':
-//		setProgram();
-//		break;
+	var page = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+	switch(page){
+		case 'setProgram':
+		setProgram();
+		break;
 //		case 'stats':
 //		stats();
 //		break;
-//		default:
-//		break;
-//	}
+		default:
+		break;
+	}
 });
 
-$(window).load(function() {
-	SetOffCanvasHeight();
-}).resize(function() {
-	SetOffCanvasHeight();
-});
+//$(window).load(function() {
+//	SetOffCanvasHeight();
+//}).resize(function() {
+//	SetOffCanvasHeight();
+//});
 
 function SetOffCanvasHeight() {
 	var height = $(window).height();
