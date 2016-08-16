@@ -6,7 +6,7 @@ from routes.Program import Program
 
 urls = (
 	'/', 'Home',
-	'/program', 'Program'
+	'/program/(monday|tuesday|wednesday|thursday|friday|saturday|sunday)', 'Program'
 )
 
 if __name__ == "__main__":
