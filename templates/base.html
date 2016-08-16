@@ -6,15 +6,15 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{appName}} - {% block pageName %}{% endblock %}</title>
-    <link rel="stylesheet" href="static/css/foundation.min.css" />
-    <link rel="stylesheet" type="text/css" href="static/css/app.css" />
+    <link rel="stylesheet" type="text/css" href="{{domain}}/static/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{domain}}/static/css/app.css" />
 </head>
 <body>
     {% block body %}
     {% endblock %}
-    <script src="static/js/vendor/jquery.min.js"></script>
-    <script src="static/js/vendor/what-input.js"></script>
-    <script src="static/js/vendor/foundation.min.js"></script>
-    <script src="static/js/app.js"></script>
+    <script src="{{domain}}/static/js/vendor/jquery.min.js"></script>
+    <script src="{{domain}}/static/js/vendor/what-input.js"></script>
+    <script src="{{domain}}/static/js/vendor/foundation.min.js"></script>
+    <script src="{{domain}}/static/js/app.js"></script>
 </body>
 </html>
