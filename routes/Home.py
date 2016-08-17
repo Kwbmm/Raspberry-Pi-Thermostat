@@ -43,4 +43,4 @@ class Home:
 			data["temp"] = None
 			data["timeRecord"] = None
 
-		return render.home(data=data)
+		return render.home(data=data, domain=web.ctx.homedomain)
