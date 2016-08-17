@@ -3,8 +3,43 @@
 {% block content %}
 <div class="row">
 	<div class="small-12 columns" style="padding-top: 10px;">
-		<h1>Programming page</h1>
-		<pre>{{data|pprint}}</pre>
+		<h1 class="text-center">{{day|capitalize}}</h1>
+		<ul class="accordion" data-accordion>
+			<li class="accordion-item is-active" data-accordion-item>
+				<a href="#" class="accordion-title">Accordion 1</a>
+				<div class="accordion-content" data-tab-content>
+					{{printAccordionItemData(data[:12])}}
+				</div>
+			</li>
+			<li class="accordion-item" data-accordion-item>
+				<a href="#" class="accordion-title">Accordion 2</a>
+				<div class="accordion-content" data-tab-content>
+					{{printAccordionItemData(data[12:])}}
+				</div>
+			</li>
+			</ul>
 	</div>
 </div>
 {% endblock %}
+
+{% macro printAccordionItemData(temps) %}
+	<div class="row">
+		<div class="small-6 columns">	
+		{% for temp in temps[:6] %}
+			<div class="row">
+				<div class="small-4 columns">{{loop.index0}}</div>
+				<div class="small-4 columns">{{temp}}</div>
+				<div class="small-4 columns">Inc/Dec</div>				
+			</div>			
+		{% endfor %}
+		</div>
+		<div class="small-6 columns">
+		{% for temp in temps[6:] %}
+			<div class="row">
+				<div class="small-4 columns">{{loop.index0+6}}</div>
+				<div class="small-4 columns">{{temp}}</div>
+				<div class="small-4 columns">Inc/Dec</div>				
+			</div>			
+		{% endfor %}
+	</div>
+{% endmacro %}
