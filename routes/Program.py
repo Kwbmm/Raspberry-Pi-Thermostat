@@ -9,6 +9,8 @@ render = render_jinja('templates', encoding='utf-8')
 class Program():
 	def GET(self, day):
 		data = self.__getWeekDays(day)
+		if len(data) == 0:
+			return render.program(data=None, day=day, domain=web.ctx.homedomain)
 		return render.program(data=data, day=day, domain=web.ctx.homedomain)
 
 	def __getWeekDays(self, day):
