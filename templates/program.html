@@ -4,42 +4,98 @@
 <div class="row">
 	<div class="small-12 columns" style="padding-top: 10px;">
 		<h1 class="text-center">{{day|capitalize}}</h1>
-		<ul class="accordion" data-accordion>
-			<li class="accordion-item is-active" data-accordion-item>
-				<a href="#" class="accordion-title">Accordion 1</a>
-				<div class="accordion-content" data-tab-content>
-					{{printAccordionItemData(data[:12])}}
-				</div>
-			</li>
-			<li class="accordion-item" data-accordion-item>
-				<a href="#" class="accordion-title">Accordion 2</a>
-				<div class="accordion-content" data-tab-content>
-					{{printAccordionItemData(data[12:])}}
-				</div>
-			</li>
+		{% if data is none %}
+		<div class="callout small alert text-center">
+			<h3><i class="fi-skull"></i> Unfortunately, an error occured! <i class="fi-skull"></i></h3>
+		</div>
+		{% else %}
+		<form action="/program/{{day}}" method="post">
+		<ul class="accordion" data-accordion data-allow-all-close="true">
+				<li class="accordion-item" data-accordion-item>
+					<a href="#" class="accordion-title text-center"><b>Hours 00-11</b></a>
+					<div class="accordion-content" data-tab-content>
+						{{printAccordionItemData(data[:12],0)}}
+					</div>
+				</li>
+				<li class="accordion-item" data-accordion-item>
+					<a href="#" class="accordion-title text-center"><b>Hours 12-23</b></a>
+					<div class="accordion-content" data-tab-content>
+						{{printAccordionItemData(data[12:],12)}}
+					</div>
+				</li>
 			</ul>
+		</form>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}
 
-{% macro printAccordionItemData(temps) %}
-	<div class="row">
-		<div class="small-6 columns">	
+{% macro printAccordionItemData(temps,startTime) %}
+<div class="row">
+	<div class="small-6 columns">	
+		{{printHeaders()}}
 		{% for temp in temps[:6] %}
-			<div class="row">
-				<div class="small-4 columns">{{loop.index0}}</div>
-				<div class="small-4 columns">{{temp}}</div>
-				<div class="small-4 columns">Inc/Dec</div>				
-			</div>			
-		{% endfor %}
+		{% set hour = loop.index0+startTime%}
+		<div class="row">
+			<div class="small-4 columns text-center">
+				<span class="hour">{{hour if hour >9 else '0'+hour|string}}</span>
+			</div>
+			<div class="small-4 columns text-center">
+				<span class="secondary label" id="showDeg-{{hour}}"><i class='fi-arrow-up invisible'></i>{{temp}}°C</span>
+				<input type="hidden" name="dataDeg-{{hour}}" id="dataDeg-{{hour}}" value="{{temp}}">
+			</div>
+			<div class="small-4 columns text-center">
+				<span class="alert badge medium" style="margin-bottom: 5px;"><i class="fi-plus" id="plus-{{hour}}"></i></span><br />
+				<span class="info badge medium"><i class="fi-minus" id="minus-{{hour}}"></i></span>
+			</div>
 		</div>
-		<div class="small-6 columns">
-		{% for temp in temps[6:] %}
-			<div class="row">
-				<div class="small-4 columns">{{loop.index0+6}}</div>
-				<div class="small-4 columns">{{temp}}</div>
-				<div class="small-4 columns">Inc/Dec</div>				
-			</div>			
+		{% if hour != 5+startTime %}
+		<hr>
+		{% endif %}
 		{% endfor %}
 	</div>
+	<div class="small-6 columns">
+		{{printHeaders()}}
+		{% for temp in temps[6:] %}
+		{% set hour = loop.index0+startTime+6 %}
+		<div class="row">
+			<div class="small-4 columns text-center">
+				<span class="hour">{{hour if hour >9 else '0'+hour|string}}</span>
+			</div>
+			<div class="small-4 columns text-center">
+				<span class="secondary label" id="showDeg-{{hour}}"><i class='fi-arrow-up invisible'></i>{{temp}}°C</span>
+				<input type="hidden" name="dataDeg-{{hour}}" id="dataDeg-{{hour}}" value="{{temp}}">
+			</div>
+			<div class="small-4 columns text-center">
+				<span class="alert badge medium" style="margin-bottom: 5px;"><i class="fi-plus" id="plus-{{hour}}"></i></span><br />
+				<span class="info badge medium"><i class="fi-minus" id="minus-{{hour}}"></i></span>
+			</div>
+		</div>
+		{% if hour != 11+startTime %}
+		<hr>
+		{% endif %}
+		{% endfor %}
+	</div>
+</div>
+{# Print the save button #}
+<div class="row" style="padding-top: 20px;">
+	<div class="small-6 small-offset-3 columns">
+		<button type="submit" class="success button expanded">Save</button>
+	</div>
+</div>
+{% endmacro %}
+
+{% macro printHeaders() %}
+<div class="row">
+	<div class="small-4 columns text-center">
+		<b>Hour</b>
+	</div>
+	<div class="small-4 columns text-center">
+		<b>Temp</b>
+	</div>
+	<div class="small-4 columns text-center">
+		<b>Ctrls</b>
+	</div>
+</div>
+
 {% endmacro %}
