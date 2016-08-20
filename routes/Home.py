@@ -34,10 +34,12 @@ class Home:
 				data['timeRecord'] = str(mins) + ' minutes ago'
 			elif timeDiff >= 3600 and timeDiff < 7200:
 				data['timeRecord'] = "an hour and something ago"
-			else:
+			elif timeDiff >= 7200 and timeDiff < 86400:
 				mins, secs = divmod(timeDiff, 60)
 				hours, mins = divmod(mins, 60)
 				data['timeRecord'] = str(hours) + " hours ago"
+			else:
+				data['timeRecord'] = "a long time ago..."				
 		else:
 			data["isActive"] = None
 			data["temp"] = None
