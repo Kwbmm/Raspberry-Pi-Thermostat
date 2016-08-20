@@ -29,9 +29,15 @@ class Program():
 			if len(result) == 0:  # There is no data in the DB
 				insertSql = "INSERT INTO program (weekDay,hour,targetTEmp) VALUES(?,?,?)"
 				cur.execute(insertSql, (num, hour, temp))
+				if cur.rowcount != 1:
+					conn.rollback()
+					return render.program(data=None, day=day, domain=web.ctx.homedomain)
 			else:
 				updateSql = "UPDATE program SET targetTemp = ? WHERE weekDay = ? AND hour = ?"
 				cur.execute(updateSql, (temp, num, hour))
+				if cur.rowcount != 1:
+					conn.rollback()
+					return render.program(data=None, day=day, domain=web.ctx.homedomain)
 		conn.commit()
 		return render.program(data=self.__getWeekDays(day), day=day, domain=web.ctx.homedomain)
 
