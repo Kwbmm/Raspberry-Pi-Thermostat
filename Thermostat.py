@@ -32,11 +32,11 @@ class ThermostatSensor:
 	# return the time taken for the voltage on the capacitor to count as a digital
 	# input HIGH than means around 1.65V
 	def __charge_time(self):
-		d1 = InputDevice(dischargePin)
-		d2 = OutputDevice(chargePin, True, True)
+		d1 = InputDevice(self.dischargePin)
+		d2 = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
 		# While input is LOW
-		while not d1.is_active():
+		while not d1.is_active:
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
@@ -53,9 +53,9 @@ class ThermostatSensor:
 		total = 0
 		for i in range(0, self.n):
 			total += self.__analog_read()
-		t = total / float(n)
+		t = total / float(self.n)
 		T = t * 0.632 * 3.3
-		r = (T / C) - R1
+		r = (T / self.C) - self.R1
 		return r
 
 	def __read_temp_c(self):
@@ -63,7 +63,8 @@ class ThermostatSensor:
 		t0 = 273.15  # 0 degrees C in K
 		t25 = t0 + 25.0
 		# Steinhart-Hart equation
-		invT = 1 / t25 + 1 / B * math.log(R / R0)
+		print "R="+str(R)
+		invT = 1 / t25 + 1 / self.B * math.log(R / self.R0)
 		T = (1 / invT - t0)
 		return T
 
