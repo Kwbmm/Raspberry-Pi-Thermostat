@@ -24,14 +24,51 @@ class ThermostatSensor:
 		self.chargePin = chargePin
 		self.dischargePin = dischargePin
 
+	def getTemp(self):
+		return self.__read_temp_c()
+
+	def __read_temp_c(self):
+		R = self.__read_resistance()
+		t0 = 273.15  # 0 degrees C in K
+		t25 = t0 + 25.0
+		invT = 1 / t25 + 1 / self.B * math.log(R / self.R0)
+		T = (1 / invT - t0)
+		return T
+
+	def __read_resistance(self):
+		total = 0
+		for i in range(0, self.n):
+			total += self.__analog_read()
+		print "__read_resistance: total from analog read=" + str(total)
+		t = total / float(self.n)
+		print "__read_resistance: total divided by n=" + str(t)
+		T = t * 0.632 * 3.3
+		print "__read_resistance: big T=" + str(T)
+		r = (T / self.C) - self.R1
+		print "__read_resistance: resistance=" + str(r)
+		return r
+
+	def __analog_read(self):
+		"""
+		Take an analog reading as the time taken to charge after first discharging
+		the capacitor
+		"""
+		self.__discharge()
+		t = self.__charge_time()
+		self.__discharge()
+		print "Time taken to charge=" + str(t)
+		return t
+
 	def __discharge(self):
 		d1 = InputDevice(self.chargePin)
 		d2 = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
 
-	# return the time taken for the voltage on the capacitor to count as a digital
-	# input HIGH than means around 1.65V
 	def __charge_time(self):
+		"""
+		Return the time taken for the voltage on the capacitor to count as a digital
+		input HIGH than means around 1.65V
+		"""
 		d1 = InputDevice(self.dischargePin)
 		d2 = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
@@ -40,36 +77,6 @@ class ThermostatSensor:
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
-
-	# Take an analog reading as the time taken to charge after first discharging
-	# the capacitor
-	def __analog_read(self):
-		self.__discharge()
-		t = self.__charge_time()
-		self.__discharge()
-		return t
-
-	def __read_resistance(self):
-		total = 0
-		for i in range(0, self.n):
-			total += self.__analog_read()
-		t = total / float(self.n)
-		T = t * 0.632 * 3.3
-		r = (T / self.C) - self.R1
-		return r
-
-	def __read_temp_c(self):
-		R = self.__read_resistance()
-		t0 = 273.15  # 0 degrees C in K
-		t25 = t0 + 25.0
-		# Steinhart-Hart equation
-		print "R="+str(R)
-		invT = 1 / t25 + 1 / self.B * math.log(R / self.R0)
-		T = (1 / invT - t0)
-		return T
-
-	def getTemp(self):
-		return self.__read_temp_c()
 
 t = ThermostatSensor(18, 23)
 while True:
