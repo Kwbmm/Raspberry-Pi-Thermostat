@@ -16,6 +16,8 @@ class ThermostatSensor:
 	# The resistance of the thermistor at 25C -change for different thermistor
 	R0 = 1000.0
 	n = 100  # Number of readings
+	device1 = None
+	device2 = None
 
 	chargePin = -1
 	dischargePin = -1
@@ -60,8 +62,8 @@ class ThermostatSensor:
 		return t
 
 	def __discharge(self):
-		d1 = InputDevice(self.chargePin)
-		d2 = OutputDevice(self.dischargePin)
+		self.device1 = InputDevice(self.chargePin)
+		self.device2 = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
 
 	def __charge_time(self):
@@ -69,11 +71,11 @@ class ThermostatSensor:
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
-		d1 = InputDevice(self.dischargePin)
-		d2 = OutputDevice(self.chargePin, True, True)
+		self.device1 = InputDevice(self.dischargePin)
+		self.device2 = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
 		# While input is LOW
-		while not d1.is_active:
+		while not self.device1.is_active:
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
