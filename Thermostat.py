@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from gpiozero import InputDevice, OutputDevice
+from gpiozero.pins.rpigpio import RPiGPIOPin as RGP
 import time
 import math
 
@@ -16,8 +17,8 @@ class ThermostatSensor:
 	# The resistance of the thermistor at 25C -change for different thermistor
 	R0 = 1000.0
 	n = 100  # Number of readings
-	device1 = None
-	device2 = None
+	chargeDevice = None
+	dischargeDevice = None
 
 	chargePin = -1
 	dischargePin = -1
@@ -62,9 +63,8 @@ class ThermostatSensor:
 		return t
 
 	def __discharge(self):
-		self.__closeDevices()
-		self.device1 = InputDevice(self.chargePin)
-		self.device2 = OutputDevice(self.dischargePin)
+		self.chargeDevice = InputDevice(self.chargePin)
+		self.dischargeDevice = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
 
 	def __charge_time(self):
@@ -73,19 +73,19 @@ class ThermostatSensor:
 		input HIGH than means around 1.65V
 		"""
 		self.__closeDevices()
-		self.device1 = InputDevice(self.dischargePin)
-		self.device2 = OutputDevice(self.chargePin, True, True)
+		self.dischargeDevice = InputDevice(self.dischargePin)
+		self.chargeDevice = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
 		# While input is LOW
-		while not self.device1.is_active:
+		while not self.dischargeDevice.is_active:
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
 
 	def __closeDevices():
-		if self.device1 is not None and self.device2 is not None:
-			self.device1.close()
-			self.device2.close()
+		if self.chargeDevice is not None and self.dischargeDevice is not None:
+			self.chargeDevice.close()
+			self.dischargeDevice.close()
 
 
 t = ThermostatSensor(18, 23)
