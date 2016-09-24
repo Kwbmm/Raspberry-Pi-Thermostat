@@ -63,6 +63,7 @@ class ThermostatSensor:
 		return t
 
 	def __discharge(self):
+		self.__closeDevices()
 		self.chargeDevice = InputDevice(self.chargePin)
 		self.dischargeDevice = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
@@ -82,7 +83,7 @@ class ThermostatSensor:
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
 
-	def __closeDevices():
+	def __closeDevices(self):
 		if self.chargeDevice is not None and self.dischargeDevice is not None:
 			self.chargeDevice.close()
 			self.dischargeDevice.close()
