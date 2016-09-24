@@ -62,6 +62,7 @@ class ThermostatSensor:
 		return t
 
 	def __discharge(self):
+		self.__closeDevices()
 		self.device1 = InputDevice(self.chargePin)
 		self.device2 = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
@@ -71,6 +72,7 @@ class ThermostatSensor:
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
+		self.__closeDevices()
 		self.device1 = InputDevice(self.dischargePin)
 		self.device2 = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
@@ -79,6 +81,12 @@ class ThermostatSensor:
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
+
+	def __closeDevices():
+		if self.device1 is not None and self.device2 is not None:
+			self.device1.close()
+			self.device2.close()
+
 
 t = ThermostatSensor(18, 23)
 while True:
