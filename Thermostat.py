@@ -56,14 +56,16 @@ class ThermostatSensor:
 		Take an analog reading as the time taken to charge after first discharging
 		the capacitor
 		"""
+		self.__closeDevices()
 		self.__discharge()
+		self.__closeDevices()
 		t = self.__charge_time()
+		self.__closeDevices()
 		self.__discharge()
 		print "Time taken to charge=" + str(t)
 		return t
 
 	def __discharge(self):
-		self.__closeDevices()
 		self.chargeDevice = InputDevice(self.chargePin)
 		self.dischargeDevice = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
@@ -73,7 +75,6 @@ class ThermostatSensor:
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
-		self.__closeDevices()
 		self.dischargeDevice = InputDevice(self.dischargePin)
 		self.chargeDevice = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
