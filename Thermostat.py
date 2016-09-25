@@ -74,7 +74,7 @@ class ThermostatSensor:
 		input HIGH than means around 1.65V
 		"""
 		GPIO.setup(self.dischargePin, GPIO.IN)
-		GPIO.setup(self.chargePin. GPIO.OUT)
+		GPIO.setup(self.chargePin, GPIO.OUT)
 		GPIO.output(self.chargePin, True)
 		t1 = time.time()
 		# While input is LOW
