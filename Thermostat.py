@@ -89,11 +89,13 @@ counter = 20
 
 
 def btnUpPress():
+	global counter
 	counter += 1
 	print counter
 
 
 def btnDownPress():
+	global counter
 	counter -= 1
 	print counter
 
