@@ -11,16 +11,14 @@ class DisplayDevice:
 
 	def increaseTargetTemp(self):
 		self.targetTemp += 1
-		self.updateScreen(self.targetTemp, self.currentTemp)
+		self.updateScreen(self.currentTemp)
 
 	def decreaseTargetTemp(self):
 		self.targetTemp -= 1
-		self.updateScreen(self.targetTemp, self.currentTemp)
+		self.updateScreen(self.currentTemp)
 
-	def updateScreen(self, target, current):
+	def updateScreen(self, current):
 		"""Here we should manage the refresh of the data displayed on the screen"""
-		if target is None:
-			print "Target is: " + str(self.targetTemp)
-		else:
-			print "Target is: " + str(target)
-		print "Current is: " + str(current)
+		self.currentTemp = current
+		print "Target is: " + str(self.targetTemp)
+		print "Current is: " + str(self.currentTemp)

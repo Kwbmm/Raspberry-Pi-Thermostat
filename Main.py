@@ -12,4 +12,4 @@ btnDown = Button(7)
 btnDown.when_pressed = display.decreaseTargetTemp
 with ThermostatSensor(18, 23) as t:
 	while True:
-		display.updateScreen(None, t.getTemp())
+		display.updateScreen(t.getTemp())
