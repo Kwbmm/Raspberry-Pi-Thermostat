@@ -86,13 +86,6 @@ class ThermostatSensor:
 
 
 counter = 20
-btnUp = Button(8)
-btnUp.when_pressed = btnUpPress
-btnDown = Button(7)
-btnDown.when_pressed = btnDownPress
-with ThermostatSensor(18, 23) as t:
-	while True:
-		print t.getTemp()
 
 
 def btnUpPress():
@@ -103,3 +96,11 @@ def btnUpPress():
 def btnDownPress():
 	counter -= 1
 	print counter
+
+btnUp = Button(8)
+btnUp.when_pressed = btnUpPress
+btnDown = Button(7)
+btnDown.when_pressed = btnDownPress
+with ThermostatSensor(18, 23) as t:
+	while True:
+		print t.getTemp()
