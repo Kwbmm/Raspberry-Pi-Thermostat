@@ -63,8 +63,10 @@ class ThermostatSensor:
 		return t
 
 	def __discharge(self):
-		InputDevice(self.chargePin)
-		OutputDevice(self.dischargePin)
+		d1 = RGP(self.chargePin)
+		d1.input_with_pull(None)
+		d2 = RGP(self.dischargePin)
+		d2.output(False)
 		time.sleep(0.01)
 
 	def __charge_time(self):
@@ -72,8 +74,7 @@ class ThermostatSensor:
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
-		d = InputDevice(self.dischargePin)
-		OutputDevice(self.chargePin, True, True)
+		RGP(self.dischargePin)
 		t1 = time.time()
 		# While input is LOW
 		while not d.is_active:
