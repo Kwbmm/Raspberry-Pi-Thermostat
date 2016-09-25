@@ -65,7 +65,7 @@ class ThermostatSensor:
 	def __discharge(self):
 		self.__closeDevices()
 		self.chargeDevice = InputDevice(self.chargePin, False)
-		self.dischargeDevice = OutputDevice(self.dischargePin)
+		self.dischargeDevice = OutputDevice(self.dischargePin, True, False)
 		time.sleep(0.01)
 		self.__closeDevices()
 
