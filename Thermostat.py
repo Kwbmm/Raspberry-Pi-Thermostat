@@ -47,13 +47,9 @@ class ThermostatSensor:
 		total = 0
 		for i in range(0, self.n):
 			total += self._analog_read()
-		print "__read_resistance: total from analog read=" + str(total)
-		t = total / float(self.n)
-		print "__read_resistance: total divided by n=" + str(t)
-		T = t * 0.632 * 3.3
-		print "__read_resistance: big T=" + str(T)
+		total /= float(self.n)
+		T = total * 0.632 * 3.3
 		r = (T / self.C) - self.R1
-		print "__read_resistance: resistance=" + str(r)
 		return r
 
 	def _analog_read(self):
@@ -64,7 +60,6 @@ class ThermostatSensor:
 		self._discharge()
 		t = self._charge_time()
 		self._discharge()
-		print "Time taken to charge=" + str(t)
 		return t
 
 	def _discharge(self):
