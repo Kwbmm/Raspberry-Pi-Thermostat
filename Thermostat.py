@@ -10,7 +10,7 @@ class ThermostatSensor:
 	"""Class that manages temperature readings"""
 
 	# uF - Tweek this value around 0.33 to improve accuracy
-	C = 0.38
+	C = 0.33
 	R1 = 1000  # Ohms
 	# The thermistor constant - change this for a different thermistor
 	B = 3800.0
@@ -56,32 +56,33 @@ class ThermostatSensor:
 		Take an analog reading as the time taken to charge after first discharging
 		the capacitor
 		"""
-		self.__closeDevices()
 		self.__discharge()
-		self.__closeDevices()
 		t = self.__charge_time()
-		self.__closeDevices()
 		self.__discharge()
 		print "Time taken to charge=" + str(t)
 		return t
 
 	def __discharge(self):
-		self.chargeDevice = InputDevice(self.chargePin)
+		self.__closeDevices()
+		self.chargeDevice = InputDevice(self.chargePin, False)
 		self.dischargeDevice = OutputDevice(self.dischargePin)
 		time.sleep(0.01)
+		self.__closeDevices()
 
 	def __charge_time(self):
 		"""
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
-		self.dischargeDevice = InputDevice(self.dischargePin)
+		self.__closeDevices()
+		self.dischargeDevice = InputDevice(self.dischargePin, False)
 		self.chargeDevice = OutputDevice(self.chargePin, True, True)
 		t1 = time.time()
 		# While input is LOW
 		while not self.dischargeDevice.is_active:
 			pass
 		t2 = time.time()
+		self.__closeDevices()
 		return (t2 - t1) * 1000000  # uS
 
 	def __closeDevices(self):
