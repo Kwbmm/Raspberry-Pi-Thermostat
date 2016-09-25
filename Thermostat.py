@@ -32,12 +32,11 @@ class ThermostatSensor:
 	def __exit__(self, exc_type, exc_value, traceback):
 		GPIO.cleanup()
 
-
 	def getTemp(self):
-		return self.__read_temp_c()
+		return self._read_temp_c()
 
 	def _read_temp_c(self):
-		R = self.__read_resistance()
+		R = self._read_resistance()
 		t0 = 273.15  # 0 degrees C in K
 		t25 = t0 + 25.0
 		invT = 1 / t25 + 1 / self.B * math.log(R / self.R0)
@@ -47,7 +46,7 @@ class ThermostatSensor:
 	def _read_resistance(self):
 		total = 0
 		for i in range(0, self.n):
-			total += self.__analog_read()
+			total += self._analog_read()
 		print "__read_resistance: total from analog read=" + str(total)
 		t = total / float(self.n)
 		print "__read_resistance: total divided by n=" + str(t)
@@ -62,9 +61,9 @@ class ThermostatSensor:
 		Take an analog reading as the time taken to charge after first discharging
 		the capacitor
 		"""
-		self.__discharge()
-		t = self.__charge_time()
-		self.__discharge()
+		self._discharge()
+		t = self._charge_time()
+		self._discharge()
 		print "Time taken to charge=" + str(t)
 		return t
 
