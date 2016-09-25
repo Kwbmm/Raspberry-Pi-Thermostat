@@ -83,26 +83,3 @@ class ThermostatSensor:
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
-
-
-counter = 20
-
-
-def btnUpPress():
-	global counter
-	counter += 1
-	print counter
-
-
-def btnDownPress():
-	global counter
-	counter -= 1
-	print counter
-
-btnUp = Button(8)
-btnUp.when_pressed = btnUpPress
-btnDown = Button(7)
-btnDown.when_pressed = btnDownPress
-with ThermostatSensor(18, 23) as t:
-	while True:
-		print t.getTemp()
