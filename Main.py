@@ -2,6 +2,7 @@
 
 from Thermostat import ThermostatSensor
 from Display import DisplayDevice
+from gpiozero import Button
 
 
 display = DisplayDevice(20)
