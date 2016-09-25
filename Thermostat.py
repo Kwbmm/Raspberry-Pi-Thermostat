@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-from gpiozero import InputDevice, OutputDevice
-from gpiozero.pins.rpigpio import RPiGPIOPin as RGP
+import RPi.GPIO as GPIO
 import time
 import math
 
@@ -24,6 +23,7 @@ class ThermostatSensor:
 	dischargePin = -1
 
 	def __init__(self, chargePin, dischargePin):
+		GPIO.setmode(GPIO.BCM)
 		self.chargePin = chargePin
 		self.dischargePin = dischargePin
 
@@ -63,34 +63,29 @@ class ThermostatSensor:
 		return t
 
 	def __discharge(self):
-		self.__closeDevices()
-		self.chargeDevice = InputDevice(self.chargePin, False)
-		self.dischargeDevice = OutputDevice(self.dischargePin, True, False)
+		GPIO.setup(self.chargePin, GPIO.IN)
+		GPIO.setup(self.dischargePin, GPIO.OUT)
+		GPIO.output(self.dischargePin, False)
 		time.sleep(0.01)
-		self.__closeDevices()
 
 	def __charge_time(self):
 		"""
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
-		self.__closeDevices()
-		self.dischargeDevice = InputDevice(self.dischargePin, False)
-		self.chargeDevice = OutputDevice(self.chargePin, True, True)
+		GPIO.setup(self.dischargePin, GPIO.IN)
+		GPIO.setup(self.chargePin. GPIO.OUT)
+		GPIO.output(self.chargePin, True)
 		t1 = time.time()
 		# While input is LOW
-		while not self.dischargeDevice.is_active:
+		while not GPIO.input(self.dischargePin):
 			pass
 		t2 = time.time()
-		self.__closeDevices()
 		return (t2 - t1) * 1000000  # uS
 
-	def __closeDevices(self):
-		if self.chargeDevice is not None and self.dischargeDevice is not None:
-			self.chargeDevice.close()
-			self.dischargeDevice.close()
-
-
 t = ThermostatSensor(18, 23)
-while True:
-	print t.getTemp()
+try:
+	while True:
+		print t.getTemp()
+finally:
+	GPIO.cleanup()
