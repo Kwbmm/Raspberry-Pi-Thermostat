@@ -64,9 +64,9 @@ class ThermostatSensor:
 
 	def __discharge(self):
 		d1 = RGP(self.chargePin)
-		d1.input_with_pull(None)
+		d1.input_with_pull('up')
 		d2 = RGP(self.dischargePin)
-		d2.output(False)
+		d2.output_with_state(False)
 		time.sleep(0.01)
 
 	def __charge_time(self):
