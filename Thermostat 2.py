@@ -28,61 +28,63 @@ class ThermostatSensor:
 		self.dischargePin = dischargePin
 
 	def getTemp(self):
-		return self.__read_temp_c()
+		return self._read_temp_c()
 
-	def __read_temp_c(self):
-		R = self.__read_resistance()
+	def _read_temp_c(self):
+		R = self._read_resistance()
 		t0 = 273.15  # 0 degrees C in K
 		t25 = t0 + 25.0
 		invT = 1 / t25 + 1 / self.B * math.log(R / self.R0)
 		T = (1 / invT - t0)
 		return T
 
-	def __read_resistance(self):
+	def _read_resistance(self):
 		total = 0
 		for i in range(0, self.n):
-			total += self.__analog_read()
-		print "__read_resistance: total from analog read=" + str(total)
+			total += self._analog_read()
+		print "_read_resistance: total from analog read=" + str(total)
 		t = total / float(self.n)
-		print "__read_resistance: total divided by n=" + str(t)
+		print "_read_resistance: total divided by n=" + str(t)
 		T = t * 0.632 * 3.3
-		print "__read_resistance: big T=" + str(T)
+		print "_read_resistance: big T=" + str(T)
 		r = (T / self.C) - self.R1
-		print "__read_resistance: resistance=" + str(r)
+		print "_read_resistance: resistance=" + str(r)
 		return r
 
-	def __analog_read(self):
+	def _analog_read(self):
 		"""
 		Take an analog reading as the time taken to charge after first discharging
 		the capacitor
 		"""
-		self.__discharge()
-		t = self.__charge_time()
-		self.__discharge()
+		self._discharge()
+		t = self._charge_time()
+		self._discharge()
 		print "Time taken to charge=" + str(t)
 		return t
 
-	def __discharge(self):
+	def _discharge(self):
 		d1 = RGP(self.chargePin)
-		d1.input_with_pull('up')
 		d2 = RGP(self.dischargePin)
 		d2.output_with_state(False)
 		time.sleep(0.01)
 
-	def __charge_time(self):
+	def _charge_time(self):
 		"""
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
 		"""
-		RGP(self.dischargePin)
+		d1 = RGP(self.dischargePin)
+		d1.input_with_pull('up')
+		d2 = RGP(self.chargePin)
+		d2._set_state(True)
 		t1 = time.time()
 		# While input is LOW
-		while not d.is_active:
+		while not d1._get_state():
 			pass
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
 
-	def __closeDevices(self):
+	def _closeDevices(self):
 		if self.chargeDevice is not None and self.dischargeDevice is not None:
 			self.chargeDevice.close()
 			self.dischargeDevice.close()
