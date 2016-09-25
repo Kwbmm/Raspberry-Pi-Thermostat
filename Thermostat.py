@@ -15,22 +15,28 @@ class ThermostatSensor:
 	B = 3800.0
 	# The resistance of the thermistor at 25C -change for different thermistor
 	R0 = 1000.0
-	n = 100  # Number of readings
-	chargeDevice = None
-	dischargeDevice = None
+	n = -1  # Number of readings
 
 	chargePin = -1
 	dischargePin = -1
 
-	def __init__(self, chargePin, dischargePin):
+	def __init__(self, chargePin, dischargePin, readingNum=100):
 		GPIO.setmode(GPIO.BCM)
 		self.chargePin = chargePin
 		self.dischargePin = dischargePin
+		self.n = readingNum
+
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		GPIO.cleanup()
+
 
 	def getTemp(self):
 		return self.__read_temp_c()
 
-	def __read_temp_c(self):
+	def _read_temp_c(self):
 		R = self.__read_resistance()
 		t0 = 273.15  # 0 degrees C in K
 		t25 = t0 + 25.0
@@ -38,7 +44,7 @@ class ThermostatSensor:
 		T = (1 / invT - t0)
 		return T
 
-	def __read_resistance(self):
+	def _read_resistance(self):
 		total = 0
 		for i in range(0, self.n):
 			total += self.__analog_read()
@@ -51,7 +57,7 @@ class ThermostatSensor:
 		print "__read_resistance: resistance=" + str(r)
 		return r
 
-	def __analog_read(self):
+	def _analog_read(self):
 		"""
 		Take an analog reading as the time taken to charge after first discharging
 		the capacitor
@@ -62,13 +68,13 @@ class ThermostatSensor:
 		print "Time taken to charge=" + str(t)
 		return t
 
-	def __discharge(self):
+	def _discharge(self):
 		GPIO.setup(self.chargePin, GPIO.IN)
 		GPIO.setup(self.dischargePin, GPIO.OUT)
 		GPIO.output(self.dischargePin, False)
 		time.sleep(0.01)
 
-	def __charge_time(self):
+	def _charge_time(self):
 		"""
 		Return the time taken for the voltage on the capacitor to count as a digital
 		input HIGH than means around 1.65V
@@ -83,9 +89,6 @@ class ThermostatSensor:
 		t2 = time.time()
 		return (t2 - t1) * 1000000  # uS
 
-t = ThermostatSensor(18, 23)
-try:
+with ThermostatSensor(18, 23) as t:
 	while True:
 		print t.getTemp()
-finally:
-	GPIO.cleanup()
