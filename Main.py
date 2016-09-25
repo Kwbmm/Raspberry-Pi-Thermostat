@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from Thermostat import ThermostatSensor
 from Display import DisplayDevice
 

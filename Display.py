@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 class DisplayDevice:
 	targetTemp = -1
 	currentTemp = -1
