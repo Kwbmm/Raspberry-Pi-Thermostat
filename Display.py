@@ -12,8 +12,6 @@ class DisplayDevice:
 		"""Init data for the display"""
 		todayWeekDay = datetime.datetime.today().weekday() + 1
 		todayHour = time.strftime("%H")
-		print "todayHour", todayHour
-		print "todayWeekDay", todayWeekDay
 		sql = """	SELECT targetTemp FROM program
 					WHERE weekDay = ?
 					AND hour = ?
