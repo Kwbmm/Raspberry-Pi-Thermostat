@@ -13,9 +13,9 @@ class DisplayDevice:
 	"""Manages data on the display"""
 	def __init__(self, targetTemp):
 		"""Init data for the display"""
-		self._fetchTargetTemp()
+		self._fetchTargetTemp(targetTemp)
 
-	def _fetchTargetTemp(self):
+	def _fetchTargetTemp(self, target):
 		now = time.time()
 		# Take the temp from the DB only if the last update was
 		# more than 2 minutes ago
@@ -36,7 +36,7 @@ class DisplayDevice:
 			else:
 				self.targetTemp = targetTemp
 		self.updateScreen(self.currentTemp)
-		Timer(5, self._fetchTargetTemp).start()
+		Timer(5, self._fetchTargetTemp, [target]).start()
 
 	def increaseTargetTemp(self):
 		print "Increase temp"
