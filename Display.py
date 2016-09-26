@@ -10,11 +10,22 @@ class DisplayDevice:
 	"""Manages data on the display"""
 	def __init__(self, targetTemp):
 		"""Init data for the display"""
-		self.targetTemp = targetTemp
 		todayWeekDay = datetime.datetime.today().weekday() + 1
 		todayHour = time.strftime("%H")
 		print "todayHour", todayHour
 		print "todayWeekDay", todayWeekDay
+		sql = """	SELECT targetTemp FROM program
+					WHERE weekDay = ?
+					AND hour = ?
+			"""
+		conn = sqlite3.connect("thermostat.db")
+		cur = conn.cursor()
+		cur.execute(sql, (todayWeekDay, todayHour))
+		result = cur.fetchone()
+		if result is not None:
+			self.targetTemp = result[0]
+		else:
+			self.targetTemp = targetTemp
 
 	def increaseTargetTemp(self):
 		self.targetTemp += 1
