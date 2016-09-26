@@ -1,4 +1,7 @@
 #!/usr/bin/python
+import sqlite3
+import datetime
+import time
 
 
 class DisplayDevice:
@@ -8,6 +11,10 @@ class DisplayDevice:
 	def __init__(self, targetTemp):
 		"""Init data for the display"""
 		self.targetTemp = targetTemp
+		todayWeekDay = datetime.datetime.today().weekday() + 1
+		todayHour = time.strftime("%H")
+		print "todayHour", todayHour
+		print "todayWeekDay", todayWeekDay
 
 	def increaseTargetTemp(self):
 		self.targetTemp += 1
