@@ -19,7 +19,7 @@ class DisplayDevice:
 		now = time.time()
 		# Take the temp from the DB only if the last update was
 		# more than 2 minutes ago
-		if now - self.lastManualChange >= 120:
+		if now - self.lastManualChange >= 120 and self.lastManualChange != -1:
 			print "updating from db"
 			todayWeekDay = datetime.datetime.today().weekday() + 1
 			todayHour = time.strftime("%H")
@@ -39,11 +39,13 @@ class DisplayDevice:
 		Timer(5, self._fetchTargetTemp).start()
 
 	def increaseTargetTemp(self):
+		print "Increase temp"
 		self.targetTemp += 1
 		self.lastManualChange = time.time()
 		self.updateScreen(self.currentTemp)
 
 	def decreaseTargetTemp(self):
+		print "Decrease temp"
 		self.targetTemp -= 1
 		self.lastManualChange = time.time()
 		self.updateScreen(self.currentTemp)
