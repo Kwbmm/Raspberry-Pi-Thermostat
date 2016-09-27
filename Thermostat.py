@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+from threading import Timer
+from pydispatch import dispatcher
+from decimal import *
 import RPi.GPIO as GPIO
 import time
 import math
@@ -15,16 +18,16 @@ class ThermostatSensor:
 	B = 3800.0
 	# The resistance of the thermistor at 25C -change for different thermistor
 	R0 = 1000.0
-	n = -1  # Number of readings
+	updateInterval = 30  # seconds
+	TEMP_SIG = "getTemp"
 
-	chargePin = -1
-	dischargePin = -1
-
-	def __init__(self, chargePin, dischargePin, readingNum=100):
+	def __init__(self, chargePin, dischargePin, readingNum=100, controller):
 		GPIO.setmode(GPIO.BCM)
 		self.chargePin = chargePin
 		self.dischargePin = dischargePin
 		self.n = readingNum
+
+		self.getTemp()
 
 	def __enter__(self):
 		return self
@@ -33,7 +36,13 @@ class ThermostatSensor:
 		GPIO.cleanup()
 
 	def getTemp(self):
-		return self._read_temp_c()
+		"""
+		This method is in charge of taking the temperature of the environment and
+		send it to the controller
+		"""
+		temp = Decimal(self._read_temp_c()).quantize(Decimal(0.1), rounding=ROUND_HALF_UP)
+		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': temp})
+		Timer(self.updateInterval, getTemp)
 
 	def _read_temp_c(self):
 		R = self._read_resistance()
