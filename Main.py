@@ -15,6 +15,7 @@ class Controller:
 	def __init__(self):
 		dispatcher.connect(self.signalHandler, signal=dispatcher.Any, sender=dispatcher.Any)
 		self.thermostat = ThermostatSensor(18, 23)
+		print "Thermostat init"
 		# self.display = DisplayDevice(20)
 		# self.btnUp = Button(8)
 		# self.btnDown = Button(7)
