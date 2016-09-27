@@ -42,7 +42,7 @@ class ThermostatSensor:
 		"""
 		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
 		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': temp})
-		Timer(self.updateInterval, getTemp)
+		Timer(self.updateInterval, self.getTemp)
 
 	def _read_temp_c(self):
 		R = self._read_resistance()
