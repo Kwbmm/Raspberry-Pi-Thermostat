@@ -21,7 +21,7 @@ class ThermostatSensor:
 	updateInterval = 30  # seconds
 	TEMP_SIG = "getTemp"
 
-	def __init__(self, chargePin, dischargePin, readingNum=100, controller):
+	def __init__(self, chargePin, dischargePin, readingNum=100):
 		GPIO.setmode(GPIO.BCM)
 		self.chargePin = chargePin
 		self.dischargePin = dischargePin
