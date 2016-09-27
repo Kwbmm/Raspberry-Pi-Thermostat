@@ -56,4 +56,4 @@ class Controller:
 
 if __name__ == '__main__':
 	with Controller() as manager:
-		pass
+		pause()
