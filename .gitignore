@@ -13,5 +13,5 @@
 !*\.js
 !*\.sql
 !*\.css
-!\.gitignore
-!\.db
+!*\.gitignore
+!*\.db
