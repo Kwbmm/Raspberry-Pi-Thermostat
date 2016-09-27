@@ -25,6 +25,12 @@ class Controller:
 		self.thermostat.readTemp.start()
 		print "Launched!"
 
+	def __enter__(self):
+		return self
+
+	def __exit__(self, exc_type, exc_value, traceback):
+		self.thermostat.close()
+
 	def signalHandler(self, sender, param):
 		"""
 		Here we should act differently according to which is the sender: param may
@@ -40,16 +46,14 @@ class Controller:
 					INSERT INTO temperature_log(temp, timeRecord, isActive)
 					VALUES(?, ?, ?)
 				"""
-			print "Inserting temp: ", param['temp']
 			cur.execute(sql, (float(param['temp']), time.time(), self.isActive))
 			if cur.rowcount != 1:
 				conn.rollback()
-				print "Insert failed"
 			else:
 				conn.commit()
-				print "Success"
 		else:
 			print "Wrong sender"
 
 if __name__ == '__main__':
-	manager = Controller()
+	with Controller() as manager:
+		pass

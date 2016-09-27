@@ -28,10 +28,7 @@ class ThermostatSensor:
 		self.n = readingNum
 		self.readTemp = Timer(self.updateInterval, self._getTemp)
 
-	def __enter__(self):
-		return self
-
-	def __exit__(self, exc_type, exc_value, traceback):
+	def close(self):
 		GPIO.cleanup()
 
 	def _getTemp(self):
