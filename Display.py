@@ -22,7 +22,7 @@ class DisplayDevice:
 
 	def updateTargetTempScreen(self, sender, param):
 		self.targetTemp += param
-		print "Target Temperature: ", param
+		print "Target Temperature: ", self.targetTemp
 
 #	def increaseTargetTemp(self):
 #		print "Increase temp"
