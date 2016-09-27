@@ -22,7 +22,7 @@ class Controller:
 		# self.btnDown = Button(7)
 		self.isActive = 0
 		print "Launching getTemp().."
-		self.thermostat.getTemp()
+		self.thermostat.readTemp.start()
 		print "Launched!"
 
 	def signalHandler(self, sender, param):
@@ -41,7 +41,7 @@ class Controller:
 					VALUES(?, ?, ?)
 				"""
 			print "Inserting temp: ", param['temp']
-			cur.execute(sql, (param['temp'], time.time(), self.isActive))
+			cur.execute(sql, (float(param['temp']), time.time(), self.isActive))
 			if cur.rowcount != 1:
 				conn.rollback()
 				print "Insert failed"

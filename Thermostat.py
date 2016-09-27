@@ -26,6 +26,7 @@ class ThermostatSensor:
 		self.chargePin = chargePin
 		self.dischargePin = dischargePin
 		self.n = readingNum
+		self.readTemp = Timer(self.updateInterval, self._getTemp)
 
 	def __enter__(self):
 		return self
@@ -33,15 +34,14 @@ class ThermostatSensor:
 	def __exit__(self, exc_type, exc_value, traceback):
 		GPIO.cleanup()
 
-	def getTemp(self):
+	def _getTemp(self):
 		"""
 		This method is in charge of taking the temperature of the environment and
 		send it to the controller
 		"""
 		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
 		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': temp})
-		Timer(self.updateInterval, self.getTemp).start()
-
+		self.readTemp.start()
 
 	def _read_temp_c(self):
 		R = self._read_resistance()
