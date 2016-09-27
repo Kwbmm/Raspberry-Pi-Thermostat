@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-from threading import Timer
 from pydispatch import dispatcher
 from decimal import *
+from threading import Timer
 import RPi.GPIO as GPIO
 import time
 import math
@@ -27,8 +27,6 @@ class ThermostatSensor:
 		self.dischargePin = dischargePin
 		self.n = readingNum
 
-		self.getTemp()
-
 	def __enter__(self):
 		return self
 
@@ -43,6 +41,7 @@ class ThermostatSensor:
 		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
 		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': temp})
 		Timer(self.updateInterval, self.getTemp).start()
+
 
 	def _read_temp_c(self):
 		R = self._read_resistance()

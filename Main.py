@@ -5,6 +5,7 @@ from Display import DisplayDevice
 from gpiozero import Button
 from pydispatch import dispatcher
 from decimal import *
+from threading import Timer
 import time
 import sqlite3
 import signal
@@ -20,6 +21,9 @@ class Controller:
 		# self.btnUp = Button(8)
 		# self.btnDown = Button(7)
 		self.isActive = 0
+		print "Launching getTemp().."
+		self.thermostat.getTemp()
+		print "Launched!"
 
 	def signalHandler(self, sender, param):
 		"""
