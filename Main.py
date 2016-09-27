@@ -17,7 +17,8 @@ class Controller:
 		dispatcher.connect(self.signalHandler, signal=dispatcher.Any, sender=dispatcher.Any)
 		self.thermostat = ThermostatSensor(18, 23)
 		print "Thermostat init"
-		# self.display = DisplayDevice(20)
+		self.display = DisplayDevice(self.thermostat)
+		print "Display init"
 		# self.btnUp = Button(8)
 		# self.btnDown = Button(7)
 		self.isActive = 0
@@ -37,7 +38,6 @@ class Controller:
 		contain different data based on which component sent the signal
 		"""
 		if sender == self.thermostat:
-			print "Saving fetched temp"
 			# Save into temperature_log the temp and a time record
 			conn = sqlite3.connect("thermostat.db")
 			conn.execute("BEGIN EXCLUSIVE TRANSACTION")
@@ -46,7 +46,7 @@ class Controller:
 					INSERT INTO temperature_log(temp, timeRecord, isActive)
 					VALUES(?, ?, ?)
 				"""
-			cur.execute(sql, (float(param['temp']), time.time(), self.isActive))
+			cur.execute(sql, (param['temp'], time.time(), self.isActive))
 			if cur.rowcount != 1:
 				conn.rollback()
 			else:
