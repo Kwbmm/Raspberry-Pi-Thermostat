@@ -40,7 +40,7 @@ class ThermostatSensor:
 		This method is in charge of taking the temperature of the environment and
 		send it to the controller
 		"""
-		temp = Decimal(self._read_temp_c()).quantize(Decimal(0.1), rounding=ROUND_HALF_UP)
+		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
 		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': temp})
 		Timer(self.updateInterval, getTemp)
 

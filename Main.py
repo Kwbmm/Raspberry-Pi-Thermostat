@@ -14,13 +14,13 @@ class Controller:
 	"""Manages all the other components and signalling"""
 	def __init__(self):
 		dispatcher.connect(self.signalHandler, signal=dispatcher.Any, sender=dispatcher.Any)
-		self.thermostat = ThermostatSensor(18, 23, self)
+		self.thermostat = ThermostatSensor(18, 23)
 		# self.display = DisplayDevice(20)
 		# self.btnUp = Button(8)
 		# self.btnDown = Button(7)
 		self.isActive = 0
 
-	def signalHandler(sender, param):
+	def signalHandler(self, sender, param):
 		"""
 		Here we should act differently according to which is the sender: param may
 		contain different data based on which component sent the signal
