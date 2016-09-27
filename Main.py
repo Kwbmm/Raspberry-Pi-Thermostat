@@ -8,7 +8,7 @@ from decimal import *
 from threading import Timer
 import time
 import sqlite3
-import signal
+from signal import pause
 
 
 class Controller:
