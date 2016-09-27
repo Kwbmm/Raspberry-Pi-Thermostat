@@ -38,7 +38,9 @@ class ThermostatSensor:
 		send it to the controller
 		"""
 		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
+		# Send the temp to the controller
 		dispatcher.send(signal=self.THERMOSTAT_TO_CONTROLLER_SIG, sender=self, param={'temp': float(temp)})
+		# Send the temp to the display
 		dispatcher.send(signal=self.THERMOSTAT_TO_DISPLAY_SIG, sender=self, param=float(temp))
 		self.readTemp = Timer(self.updateInterval, self._getTemp).start()
 
