@@ -6,6 +6,7 @@ from gpiozero import Button
 from pydispatch import dispatcher
 from decimal import *
 from threading import Timer
+import datetime
 import time
 import sqlite3
 from signal import pause
