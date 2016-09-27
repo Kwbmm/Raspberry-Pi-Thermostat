@@ -18,7 +18,7 @@ class ThermostatSensor:
 	B = 3800.0
 	# The resistance of the thermistor at 25C -change for different thermistor
 	R0 = 1000.0
-	updateInterval = 30  # seconds
+	updateInterval = 5  # seconds
 	TEMP_SIG = "getTemp"
 
 	def __init__(self, chargePin, dischargePin, readingNum=100):
@@ -41,7 +41,7 @@ class ThermostatSensor:
 		"""
 		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
 		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': temp})
-		self.readTemp.start()
+		self.readTemp = Timer(self.updateInterval, self._getTemp).start()
 
 	def _read_temp_c(self):
 		R = self._read_resistance()
