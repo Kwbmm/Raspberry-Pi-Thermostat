@@ -14,8 +14,8 @@ from signal import pause
 class Controller:
 	"""Manages all the other components and signalling"""
 	def __init__(self):
-		dispatcher.connect(self.signalHandler, signal=dispatcher.Any, sender=dispatcher.Any)
 		self.thermostat = ThermostatSensor(18, 23)
+		dispatcher.connect(self.signalHandler, signal=self.thermostat.THERMOSTAT_TO_CONTROLLER_SIG, sender=dispatcher.Any)
 		print "Thermostat init"
 		self.display = DisplayDevice(self.thermostat)
 		print "Display init"

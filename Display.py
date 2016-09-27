@@ -11,7 +11,7 @@ class DisplayDevice:
 	"""Manages data on the display"""
 	def __init__(self, thermostatSensor):
 		self.thermostatSensor = thermostatSensor
-		dispatcher.connect(self.updateEnvTempScreen, signal=dispatcher.Any, sender=self.thermostatSensor)
+		dispatcher.connect(self.updateEnvTempScreen, signal=self.thermostatSensor.THERMOSTAT_TO_DISPLAY_SIG, sender=self.thermostatSensor)
 
 	def updateEnvTempScreen(self, sender, param):
 		print "Environment Temperature: ", param

@@ -19,7 +19,8 @@ class ThermostatSensor:
 	# The resistance of the thermistor at 25C -change for different thermistor
 	R0 = 1000.0
 	updateInterval = 5  # seconds
-	TEMP_SIG = "getTemp"
+	THERMOSTAT_TO_CONTROLLER_SIG = "HELLO-CONTROLLER-IM-THERMOSTAT"
+	THERMOSTAT_TO_DISPLAY_SIG = "HELLO-DISPLAY-IM-THERMOSTAT"
 
 	def __init__(self, chargePin, dischargePin, readingNum=100):
 		GPIO.setmode(GPIO.BCM)
@@ -37,8 +38,8 @@ class ThermostatSensor:
 		send it to the controller
 		"""
 		temp = Decimal(self._read_temp_c()).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)
-		dispatcher.send(signal=self.TEMP_SIG, sender=self, param={'temp': float(temp)})
-		dispatcher.send(signal=self.TEMP_SIG, sender=self, param=float(temp))
+		dispatcher.send(signal=self.THERMOSTAT_TO_CONTROLLER_SIG, sender=self, param={'temp': float(temp)})
+		dispatcher.send(signal=self.THERMOSTAT_TO_DISPLAY_SIG, sender=self, param=float(temp))
 		self.readTemp = Timer(self.updateInterval, self._getTemp).start()
 
 	def _read_temp_c(self):
