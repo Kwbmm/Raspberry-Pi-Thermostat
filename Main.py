@@ -47,6 +47,7 @@ class Controller:
 				print "Insert failed"
 			else:
 				conn.commit()
+				print "Success"
 		else:
 			print "Wrong sender"
 
