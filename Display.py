@@ -27,18 +27,18 @@ class DisplayDevice:
 	"""Manages data on the display"""
 	def __init__(self, displayAddress, thermostatSensor, targetTemp, controller, displayWidth=20):
 		self.bus = smbus.SMBus(1)
+		self.thermostatSensor = thermostatSensor
+		self.controller = controller
+		self.targetTemp = targetTemp
+		self.i2cAddr = displayAddress
+		self.displayWidth = displayWidth
 		self._lcdByte(0x33, self.LCD_CMD)  # 110011 Initialise
 		self._lcdByte(0x32, self.LCD_CMD)  # 110010 Initialise
 		self._lcdByte(0x06, self.LCD_CMD)  # 000110 Cursor move direction
 		self._lcdByte(0x0C, self.LCD_CMD)  # 001100 Display On,Cursor Off, Blink Off
 		self._lcdByte(0x28, self.LCD_CMD)  # 101000 Data length, number of lines, font size
 		self._lcdByte(0x01, self.LCD_CMD)  # 000001 Clear display
-		self.i2cAddr = displayAddress
-		self.displayWidth = displayWidth
 
-		self.thermostatSensor = thermostatSensor
-		self.controller = controller
-		self.targetTemp = targetTemp
 
 		dispatcher.connect(self.updateEnvTempScreen, signal=self.thermostatSensor.THERMOSTAT_TO_DISPLAY_SIG, sender=self.thermostatSensor)
 		dispatcher.connect(self.updateTargetTempScreen, signal=self.controller.BTN_UP_TO_DISPLAY_SIG, sender=self.controller)
@@ -55,13 +55,13 @@ class DisplayDevice:
 		self.bus.write_byte(self.i2cAddr, bits_high)
 		self._lcdToggleEnable(bits_high)
 		# Low bits
-		self.bus.write_byte(self.I2C_ADDR, bits_low)
+		self.bus.write_byte(self.i2cAddr, bits_low)
 		self._lcdToggleEnable(bits_low)
 
 	def _lcdToggleEnable(self, bits):
 		# Toggle enable
-		self.bus.write_byte(self.I2C_ADDR, (bits | self.ENABLE))
-		self.bus.write_byte(self.I2C_ADDR, (bits & ~self.ENABLE))
+		self.bus.write_byte(self.i2cAddr, (bits | self.ENABLE))
+		self.bus.write_byte(self.i2cAddr, (bits & ~self.ENABLE))
 
 	def _lcdString(self, message, line):
 		message = message.ljust(self.displayWidth, " ")
@@ -70,8 +70,8 @@ class DisplayDevice:
 			self._lcdByte(ord(message[i]), self.LCD_CHR)
 
 	def updateEnvTempScreen(self, sender, param):
-		self._lcdString("Environment Temperature: " + str(param), self.LCD_LINE_1)
+		self._lcdString("Env Temp: " + str(param), self.LCD_LINE_1)
 
 	def updateTargetTempScreen(self, sender, param):
 		self.targetTemp += param
-		self._lcdString("Target Temperature: " + str(param), self.LCD_LINE_2)
+		self._lcdString("Target Temp: " + str(param), self.LCD_LINE_2)

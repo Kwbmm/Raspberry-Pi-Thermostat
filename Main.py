@@ -25,7 +25,7 @@ class Controller:
 		print "Thermostat init"
 
 		self.startTargetTemp = self._fetchTargetTemp(self.startTargetTemp)
-		self.display = DisplayDevice(self.thermostat, self.startTargetTemp, self)
+		self.display = DisplayDevice(0x3F, self.thermostat, self.startTargetTemp, self)
 		print "Display init"
 
 		self.btnUp = Button(8)
