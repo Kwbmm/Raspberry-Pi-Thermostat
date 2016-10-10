@@ -39,7 +39,7 @@ class DisplayDevice:
 		self._lcdByte(0x28, self.LCD_CMD)  # 101000 Data length, number of lines, font size
 		self._lcdByte(0x01, self.LCD_CMD)  # 000001 Clear display
 
-		self.updateTargetTempScreen(None, 0)
+		self._lcdString("Target Temp: " + str(self.targetTemp), self.LCD_LINE_2)
 
 		dispatcher.connect(self.updateEnvTempScreen, signal=self.thermostatSensor.THERMOSTAT_TO_DISPLAY_SIG, sender=self.thermostatSensor)
 		dispatcher.connect(self.updateTargetTempScreen, signal=self.controller.BTN_UP_TO_DISPLAY_SIG, sender=self.controller)
