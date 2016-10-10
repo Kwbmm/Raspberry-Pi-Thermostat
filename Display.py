@@ -3,6 +3,7 @@ import sqlite3
 import datetime
 import time
 import smbus
+import RPi.GPIO as GPIO
 from pydispatch import dispatcher
 
 
@@ -45,6 +46,9 @@ class DisplayDevice:
 		dispatcher.connect(self.updateEnvTempScreen, signal=self.thermostatSensor.THERMOSTAT_TO_DISPLAY_SIG, sender=self.thermostatSensor)
 		dispatcher.connect(self.updateTargetTempScreen, signal=self.controller.BTN_UP_TO_DISPLAY_SIG, sender=self.controller)
 		dispatcher.connect(self.updateTargetTempScreen, signal=self.controller.BTN_DOWN_TO_DISPLAY_SIG, sender=self.controller)
+
+	def close(self):
+		GPIO.cleanup()
 
 	def _lcdByte(self, bits, mode):
 		# Send byte to data pins
