@@ -72,8 +72,8 @@ class DisplayDevice:
 			self._lcdByte(ord(message[i]), self.LCD_CHR)
 
 	def updateEnvTempScreen(self, sender, param):
-		self._lcdString("Env Temp: " + str(param), self.LCD_LINE_1)
+		self._lcdString("Env Temp: " + str(param) + " °C", self.LCD_LINE_1)
 
 	def updateTargetTempScreen(self, sender, param):
 		self.targetTemp += param
-		self._lcdString("Target Temp: " + str(self.targetTemp), self.LCD_LINE_2)
+		self._lcdString("Target Temp: " + str(self.targetTemp) + " °C", self.LCD_LINE_2)
