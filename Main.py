@@ -45,6 +45,8 @@ class Controller:
 	def __exit__(self, exc_type, exc_value, traceback):
 		self.thermostat.close()
 		self.display.close()
+		self.btnDown.close()
+		self.btnUp.close()
 
 	def signalHandler(self, sender, param):
 		"""
