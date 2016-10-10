@@ -74,4 +74,4 @@ class DisplayDevice:
 
 	def updateTargetTempScreen(self, sender, param):
 		self.targetTemp += param
-		self._lcdString("Target Temp: " + str(param), self.LCD_LINE_2)
+		self._lcdString("Target Temp: " + str(self.targetTemp), self.LCD_LINE_2)
