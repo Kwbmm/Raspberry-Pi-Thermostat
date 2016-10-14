@@ -1,0 +1,22 @@
+{% extends "body.html" %}
+{% block pageName %}Login{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="small-12 columns" style="padding-top: 10px;">
+        {{data|pprint}}
+        <form action="/login" method="post">
+            <div class="row">
+                <div class="small-12 medium-6 medium-offset-3 columns">
+                    <div class="input-group">
+                        <span class="input-group-label">Password</span>
+                        <input class="input-group-field" type="password" placeholder="Insert the password here" name="loginPsw" id="loginPsw">
+                        <div class="input-group-button">
+                            <input type="submit" class="button" value="Enter">
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
