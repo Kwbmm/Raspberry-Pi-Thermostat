@@ -7,8 +7,8 @@
 SSL_KEY_NAME="$(hostname --fqdn)"
 
 #Merge the SSL certificate private and public keys in the file /etc/lighttpd/server.pem
-sudo cp '/etc/ssl/private/${SSL_KEY_NAME}.key' '/etc/lighttpd/server.pem'
-sudo cat '/etc/ssl/certs/${SSL_KEY_NAME}.crt' >> '/etc/lighttpd/server.pem'
+sudo cp "/etc/ssl/private/${SSL_KEY_NAME}.key" '/etc/lighttpd/server.pem'
+sudo cat "/etc/ssl/certs/${SSL_KEY_NAME}.crt" >> '/etc/lighttpd/server.pem'
 
 #Protect the access to server.pem
 sudo chown root:root /etc/lighttpd/server.pem
