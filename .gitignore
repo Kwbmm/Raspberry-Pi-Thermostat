@@ -13,6 +13,8 @@
 !*\.js
 !*\.sql
 !*\.css
+!*\.ttf
+!*\.woff
 !*\.gitignore
 !*\.db
 !*\.sh
